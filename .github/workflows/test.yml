@@ -36,6 +36,8 @@ jobs:
           node-version: "24"
           cache: "pnpm"
           cache-dependency-path: "frontend/pnpm-lock.yaml"
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
       - name: Install dependencies
         run: mise deps
       - name: Install Playwright browsers

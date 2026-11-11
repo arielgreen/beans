@@ -1,4 +1,5 @@
 [tools]
+bun = "latest"
 go = "latest"
 node = "latest"
 pnpm = "latest"
@@ -31,8 +32,12 @@ sources = ["frontend/package.json", "frontend/pnpm-lock.yaml"]
 run = ["go generate ./...", "cd frontend && pnpm codegen"]
 
 [tasks.test]
-depends = ["codegen", "test:e2e"]
+depends = ["codegen", "test:e2e", "test:opencode"]
 run = "go test ./..."
+
+[tasks."test:opencode"]
+description = "Run OpenCode plugin tests"
+run = "bun test extras/opencode"
 
 [tasks."build:frontend"]
 description = "Build the SvelteKit frontend"

@@ -1,10 +1,5 @@
 ![beans](https://github.com/user-attachments/assets/776f094c-f2c4-4724-9a0b-5b87e88bc50d)
 
-[![License](https://img.shields.io/github/license/hmans/beans?style=for-the-badge)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/hmans/beans?style=for-the-badge)](https://github.com/hmans/beans/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/hmans/beans/test.yml?branch=main&label=tests&style=for-the-badge)](https://github.com/hmans/beans/actions/workflows/test.yml)
-[![Go Version](https://img.shields.io/github/go-mod/go-version/hmans/beans?style=for-the-badge)](https://go.dev/)
-[![Go Report Card](https://goreportcard.com/badge/github.com/hmans/beans?style=for-the-badge)](https://goreportcard.com/report/github.com/hmans/beans)
 
 **Beans is an issue tracker for you, your team, and your coding agents.** Instead of tracking tasks in a separate application, Beans stores them right alongside your code. You can use the `beans` CLI to interact with your tasks, but more importantly, so can your favorite coding agent!
 
@@ -44,17 +39,16 @@ We'll need to do three things:
 2. Configure your project to use it.
 3. Configure your coding agent to interact with it.
 
-Either download Beans from the [Releases section](https://github.com/hmans/beans/releases), or install it via Homebrew:
+This is a fork of [hmans/beans](https://github.com/hmans/beans). Upstream releases, Homebrew, and `go install` all install the original, so build this fork from source with [mise](https://mise.jdx.dev/):
 
 ```bash
-brew install hmans/beans/beans
+git clone https://github.com/arielgreen/beans.git
+cd beans
+mise setup
+mise run install
 ```
 
-Alternatively, install directly via Go:
-
-```bash
-go install github.com/hmans/beans@latest
-```
+This builds `beans`, `beans-serve`, and `beans-tui` and copies them to `~/.local/bin` (make sure it's on your `PATH`).
 
 ## Configure Your Project
 
@@ -103,7 +97,17 @@ An official Beans plugin for Claude is in the works, but for the time being, ple
 
 ### OpenCode
 
-Beans integrates with OpenCode via a plugin that injects task context into your sessions. To set it up, **copy the plugin** from [`.opencode/plugin/beans-prime.ts`](.opencode/plugin/beans-prime.ts) to your project's `.opencode/plugin/` directory (or `~/.opencode/plugin/` for global availability across all projects).
+Beans integrates with OpenCode v2 via a plugin that injects `beans prime` into session context and compaction. Copy [`.opencode/plugins/beans-prime.ts`](.opencode/plugins/beans-prime.ts) to your project's `.opencode/plugins/` directory, or to `~/.config/opencode/plugins/` for global availability. Install the `beans` CLI and add a `.beans.yml` file to each project where the plugin should run.
+
+Use one copy, either global or project-local. This repository already ships a project-local copy, so don't also install it globally if you work on Beans itself. The plugin searches for `.beans.yml` in the current OpenCode location and its parents when it loads; if you initialize Beans afterward, use `/reload` to activate it.
+
+Or ask your agent:
+
+```text
+Install the OpenCode v2 Beans Prime plugin globally. Copy .opencode/plugins/beans-prime.ts from the main branch of https://github.com/arielgreen/beans to ~/.config/opencode/plugins/beans-prime.ts. Verify that the beans CLI is available, and don't overwrite an existing plugin without asking me.
+```
+
+If upgrading from the v1 plugin, remove its old `.opencode/plugin/beans-prime.ts` copy; v1 plugins do not run in v2.
 
 ## Usage Hints
 
@@ -156,13 +160,8 @@ When making a commit, include the relevant bean IDs in the commit message
 
 ## Contributing
 
-This project currently does not accept contributions -- it's just way too early for that!
-But if you do have suggestions or feedback, please feel free to open an issue.
+This project does not accept contributions.
 
 ## License
 
 This project is licensed under the Apache-2.0 License. See the [LICENSE](LICENSE) file for details.
-
-## Getting in Touch
-
-If you have any questions, suggestions, or just want to say hi, feel free to reach out to me [on Bluesky](https://bsky.app/profile/hmans.dev), or [open an issue](https://github.com/hmans/beans/issues) in this repository.

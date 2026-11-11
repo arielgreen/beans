@@ -9,3 +9,4 @@ dist/
 # Embedded frontend (generated from frontend/build)
 /internal/web/dist/*
 !/internal/web/dist/.gitkeep
+/.opencode/goals/
